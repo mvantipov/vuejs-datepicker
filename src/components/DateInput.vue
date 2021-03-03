@@ -40,11 +40,19 @@
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+import moment from 'moment'
 export default {
   props: {
     selectedDate: Date,
     resetTypedDate: [Date],
     format: [String, Function],
+    parse: {
+      type: Function,
+      default: (v) => {
+        let momentDate = (typeof this !== 'undefined' && typeof this.format === 'string') ? moment(this.input.value, this.format) : null
+        return momentDate != null && momentDate.isValid() ? momentDate.toDate().getTime() : Date.parse(v)
+      }
+    },
     translation: Object,
     inline: Boolean,
     id: String,
@@ -118,10 +126,10 @@ export default {
       }
 
       if (this.typeable) {
-        const typedDate = Date.parse(this.input.value)
+        const typedDate = this.epochTime(this.input.value)
         if (!isNaN(typedDate)) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(this.typedDate))
+          this.$emit('typedDate', new Date(typedDate))
         }
       }
     },
@@ -130,7 +138,7 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+      if (this.typeable && isNaN(this.epochTime(this.input.value))) {
         this.clearDate()
         this.input.value = null
         this.typedDate = null
@@ -143,6 +151,10 @@ export default {
      */
     clearDate () {
       this.$emit('clearDate')
+    },
+    epochTime (v) {
+      let momentDate = typeof this.format === 'string' ? moment(this.input.value, this.format) : null
+      return momentDate != null && momentDate.isValid() ? momentDate.toDate().getTime() : this.parse(v)
     }
   },
   mounted () {

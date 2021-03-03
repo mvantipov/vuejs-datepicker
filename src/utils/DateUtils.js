@@ -205,15 +205,15 @@ const utils = {
     let month = this.getMonth(date) + 1
     let day = this.getDate(date)
     let str = format
-      .replace(/dd/, ('0' + day).slice(-2))
-      .replace(/d/, day)
-      .replace(/yyyy/, year)
-      .replace(/yy/, String(year).slice(2))
+      .replace(/DD/, ('0' + day).slice(-2))
+      .replace(/D/, day)
+      .replace(/YYYY/, year)
+      .replace(/YY/, String(year).slice(2))
       .replace(/MMMM/, this.getMonthName(this.getMonth(date), translation.months))
       .replace(/MMM/, this.getMonthNameAbbr(this.getMonth(date), translation.monthsAbbr))
       .replace(/MM/, ('0' + month).slice(-2))
       .replace(/M(?!a|ä|e)/, month)
-      .replace(/su/, this.getNthSuffix(this.getDate(date)))
+      .replace(/Do/, this.getNthSuffix(this.getDate(date)))
       .replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days))
     return str
   },
