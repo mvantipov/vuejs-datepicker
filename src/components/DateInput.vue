@@ -48,10 +48,7 @@ export default {
     format: [String, Function],
     parse: {
       type: Function,
-      default: (v) => {
-        let momentDate = (typeof this !== 'undefined' && typeof this.format === 'string') ? moment(this.input.value, this.format) : null
-        return momentDate != null && momentDate.isValid() ? momentDate.toDate().getTime() : Date.parse(v)
-      }
+      default: (v) => Date.parse(v)
     },
     translation: Object,
     inline: Boolean,
@@ -153,6 +150,8 @@ export default {
       this.$emit('clearDate')
     },
     epochTime (v) {
+      // rm timezone
+      // let momentDate = typeof this.format === 'string' ? moment(this.input.value + ' 00:00:00 AM', this.format + '[T]HH:mm:ss') : null
       let momentDate = typeof this.format === 'string' ? moment(this.input.value, this.format) : null
       return momentDate != null && momentDate.isValid() ? momentDate.toDate().getTime() : this.parse(v)
     }
