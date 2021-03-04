@@ -8,7 +8,7 @@ describe('DateInput', () => {
   beforeEach(() => {
     wrapper = shallow(DateInput, {
       propsData: {
-        format: 'dd MMM yyyy',
+        format: 'DD MMM YYYY',
         translation: en,
         typeable: true
       }
@@ -38,7 +38,7 @@ describe('DateInput', () => {
       const dt = new Date(yyyy, MM - 1, dd)
       return dt.getTime()
     }
-    wrapper.vm.format = 'dd/MM/yyyy'
+    wrapper.vm.format = 'DD/MM/YYYY'
     wrapper.vm.input.value = '07/01/2019'
     const input = wrapper.find('input')
     input.trigger('keyup')
@@ -73,7 +73,7 @@ describe('DateInput', () => {
   it('doesn\'t emit the date if typeable=false', () => {
     const wrapper = shallow(DateInput, {
       propsData: {
-        format: 'dd MMM yyyy',
+        format: 'DD MMM YYYY',
         translation: en,
         typeable: false
       }
